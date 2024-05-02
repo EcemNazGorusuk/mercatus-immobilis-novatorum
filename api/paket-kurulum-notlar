@@ -1,0 +1,99 @@
+#   npm run dev  ->backend
+#   npm run dev  ->frontend
+
+#   EXPRESS 
+#   npm init --y   (package.json'ı oluşturacak)
+#   npm i express  (package-lock.json & node_modules 'ü oluşturacak)
+
+#   EXPRESS FILE UPLOAD 
+#   npm i express-fileupload
+
+#   NODE WATCH
+#   server tarafında anlık hızlı değişim görmek için server watch sağlamak:
+#  node --watch server.js
+
+#   JSON WEB TOKEN
+#   npm i jsonwebtoken
+
+#   CORS
+#   npm i cors
+
+#   MONGODB & MONGOOSE
+#   Mongodb ile bağlantı sağlamak için gerken mongoose paketi:
+#   npm i mongoose
+#   npm install mongodb
+
+#   .ENV paketi ile config.env'ye erişim :
+#   npm i dotenv
+
+#   COOKIE PARSER
+#   npm i cookie-parser
+
+#   BCRYPT şifreleme için 
+#   npm i bcryptjs
+
+#   CLOUDINARY
+#   npm i cloudinary
+#   https://cloudinary.com/users/login
+
+#   VALIDATOR
+#   npm i validator
+
+#   CONSOLE NINJA
+#   console-ninja node --watch app.js
+
+#   HTTP İSTEKLERİNİ GÖRMEK İÇİN :logger
+#   npm i morgan (api tarafı)
+
+#   PACKAGE.JSON İÇİNDE ŞUNLAR OLMALI:
+# {
+#   "name": "backend",
+#   "version": "1.0.0",
+#   "description": "",
+#   "main": "index.js",
+#*   "type":"module",
+#   "scripts": {
+# *    "start":"node server.js",
+# *    "dev":"nodemon server.js"
+#   },
+#   "keywords": [],
+#   "author": "",
+#   "license": "ISC",
+#   "dependencies": {
+#     "bcryptjs": "^2.4.3",
+#     "cloudinary": "^2.2.0",
+#     "cookie-parser": "^1.4.6",
+#     "cors": "^2.8.5",
+#     "dotenv": "^16.4.5",
+#     "express": "^4.19.2",
+#     "express-fileupload": "^1.5.0",
+#     "jsonwebtoken": "^9.0.2",
+#     "mongoose": "^8.3.2",
+#     "morgan": "^1.10.0",
+#     "validator": "^13.11.0"
+#   }
+# }
+
+
+
+
+
+#   localde && sunucuda adres göstermek canlıya almak:
+#   https://www.npmjs.com/package/dotenv
+#   https://create-react-app.dev/docs/adding-custom-environment-variables/
+#   1- .env dosyası client tarafında da oluşturulur (REACT_APP_SERVER_URL=http://localhost:5000)
+#   2-  fetch edilen tüm bu  http://localhost:5000 adresi silinip yerine--> process.env.REACT_APP_SERVER_URL eklenir
+#   3- server.js için : 
+#     client ve api tarafında farklı port adresleri depo edilmiş olacak const port = process.env.port || 5000;
+#     ardından cd api-> npm start
+
+
+
+# GITHUB İLE EŞ ZAMANLI ÇALIŞMAK İÇİN: default branch:main
+# cd client -> git init
+# cd client -> git add .
+# cd client -> git commit -m "install react js and tailwind css and the create first template"
+# cd client -> git remote add origin https://github.com/EcemNazGorusuk/mercatus-immobilis-novatorum.git
+# cd client -> git branch -M main
+# cd client -> git pull origin main --allow-unrelated-histories
+# cd client -> git push -u origin main
