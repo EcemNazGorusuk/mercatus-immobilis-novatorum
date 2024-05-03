@@ -2,14 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 a {
-
 }
 a:hover {
   color: #535bf2;
 }
 
+.custom-search .ant-btn-primary {
+  /* we can change antd buttons color: */
+  background: linear-gradient(
+    to right,
+    rgba(14, 14, 14, 0.8),
+    rgba(255, 0, 0, 1.5)
+  ) !important;
+}
+
 body {
- 
 }
 
 h1 {
@@ -34,17 +41,4 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
