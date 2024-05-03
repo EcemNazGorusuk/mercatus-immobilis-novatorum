@@ -89,11 +89,18 @@
 
 
 
-# GITHUB İLE EŞ ZAMANLI ÇALIŞMAK İÇİN: default branch:main
-# cd client -> git init
-# cd client -> git add .
-# cd client -> git commit -m "install react js and tailwind css and the create first template"
-# cd client -> git remote add origin https://github.com/EcemNazGorusuk/mercatus-immobilis-novatorum.git
-# cd client -> git branch -M main
-# cd client -> git pull origin main --allow-unrelated-histories
-# cd client -> git push -u origin main
+# GITHUB İLE EŞ ZAMANLI ÇALIŞMAK İÇİN  cd client:
+
+# …or create a new repository on the command line
+# git init
+# git add .
+# git add README.md
+# git commit -m "first commit"
+# git branch -M main
+# git remote add origin https://github.com/EcemNazGorusuk/mercatus-immobilis-novatorum.git
+# git push -u origin main
+
+#…or push an existing repository from the command line
+# git remote add origin https://github.com/EcemNazGorusuk/mercatus-immobilis-novatorum.git
+# git branch -M main
+#* DEĞİŞİKLİĞİ YOLLAMAK İÇİN ----->  git push -u origin main
