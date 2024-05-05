@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { SearchOutlined } from "@ant-design/icons";
 import logo from "../../public/circled-logo.PNG";
 import { Input } from "antd";
-
+import { Col, Row } from "antd"; // responsive layout for search button width
+import { Link } from "react-router-dom";
 export default function Header() {
   const { Search } = Input; //comes from antd
   const [loading, setLoading] = useState(false); // state for loading
@@ -21,34 +23,55 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-[#F9F9F9] flex shadow-sm">
-      <h1>
-        <a href="/">
-          <img
-            src={logo}
-            className="w-8 sm:w-10 md:w-12 lg:w-16 xl:w-20"
-            alt="logo"
-          />
-        </a>
-      </h1>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSearch();
-        }}
-      >
-        <Search
-          className="custom-search"
-          placeholder="input search text"
-          enterButton="Search..."
-          size="large"
-          loading={loading} // loading property holds the state's value
-          onSearch={handleSearch} //if click search button it works
-          //also these under properties works for <input onChange value/>
-          onChange={handleChange}
-          value={inputText}
-        />
-      </form>
+    <header className="bg-gradient-to-r from-[#323244] via-gray-700 to-[#2f2f40] shadow-sm">
+
+     
+      <div className="flex justify-between items-center max-w-6xl mx-auto p-1">
+        <h1>
+          <Link to="/">
+            <img
+              src={logo}
+              className="w-8 sm:w-10 md:w-12 lg:w-16 xl:w-20"
+              alt="logo"
+            />
+          </Link>
+        </h1>
+
+        <form
+          className="p-3 flex items-center"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+        >
+          {/* Responsive layout with Ant Design Grid system */}
+          {/* Search form column */}
+          <Col xs={19} sm={20} md={21} lg={22} xl={23} xxl={24}>
+            <Search
+              prefix={<SearchOutlined className="text-gray-500" />}
+              className="custom-search "
+              enterButton="Search"
+              size="large"
+              loading={loading} // loading property holds the state's value
+              onSearch={handleSearch} //if click search button it works
+              //also these under properties works for <input onChange value/>
+              onChange={handleChange}
+              value={inputText}
+            />
+          </Col>
+        </form>
+        <ul className="flex gap-4 text-slate-400 cursor-pointer font-[500]">
+          <Link to={"/"} className="hidden sm:inline hover:text-red-700">
+            Home
+          </Link>
+          <Link to={"/about"} className="hidden sm:inline hover:text-red-700">
+            About
+          </Link>
+          <Link to={"/sign-in"} className="hover:text-red-700">
+            Sign in
+          </Link>
+        </ul>
+      </div>
     </header>
   );
 }
