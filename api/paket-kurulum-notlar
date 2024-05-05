@@ -75,6 +75,13 @@
 # }
 
 
+# PUBLIC İÇİNDEKİ IMGLERİN SORUNSUZ GÖRÜNMESİ İÇİN: vite.config.js içinde:
+
+# import react from '@vitejs/plugin-react'
+# export default defineConfig({
+#   plugins: [react()],
+#    assetsInclude: "**/*.PNG"
+# })
 
 
 
@@ -103,4 +110,9 @@
 #…or push an existing repository from the command line
 # git remote add origin https://github.com/EcemNazGorusuk/mercatus-immobilis-novatorum.git
 # git branch -M main
-#* DEĞİŞİKLİĞİ YOLLAMAK İÇİN ----->  git push -u origin main
+
+
+#* DEĞİŞİKLİĞİ YOLLAMAK İÇİN
+#  git add .
+#  git commit -m "first commit"
+#  git push -u origin main
