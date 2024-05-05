@@ -78,13 +78,15 @@
 
 #* GITHUB İLE EŞ ZAMANLI TEK DOSYALAMA OLARAK ÇALIŞMAK İÇİN (client-api) mercatus-immobilis-novatorum>client yolunda:
 # mv .git ../
+# not: client içindeki gitignore dosyasını en dışa al
 
-
-
-#* DEĞİŞİKLİĞİ YOLLAMAK İÇİN
+#* DEĞİŞİKLİĞİ YOLLAMAK İÇİN CLIENT (cd client)
 #  git add .
 #  git commit -m "first commit"
 #  git push -u origin main
 
 
-# GITHUB İLE EŞ ZAMANLI ÇALIŞMAK İÇİN  cd api:
+#* DEĞİŞİKLİĞİ YOLLAMAK İÇİN API (cd api)
+#  git add .
+#  git commit -m "first commit"
+#  git push -u origin master
