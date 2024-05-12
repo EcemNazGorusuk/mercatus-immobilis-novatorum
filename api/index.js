@@ -5,7 +5,8 @@ import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 
 dotenv.config();
-mongoose.connect(process.env.MONGO)
+mongoose
+  .connect(process.env.MONGO)
   .then(() => {
     console.log("connected to MongoDb!");
   })
@@ -20,8 +21,19 @@ app.listen(3000, () => {
   console.log(`server is running on port 3000!!`);
 });
 
-
-
 //ROUTES
-app.use('/api/user',userRouter) //-> http://localhost:3000/api/user/test
-app.use('/api/auth',authRouter); //-> http://localhost:3000/api/auth/signup
+app.use("/api/user", userRouter); //-> http://localhost:3000/api/user/test
+app.use("/api/auth", authRouter); //-> http://localhost:3000/api/auth/signup
+
+//MIDDLEWARES
+
+//for error handler works
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    return res.status(statusCode).json({
+      success: false,
+      statusCode,
+      message,
+    });
+  });
