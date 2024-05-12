@@ -2,31 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ant-button : */
-.custom-search .ant-btn-primary {
-  /* we can change antd buttons color: */
-  background: linear-gradient(
-    to right,
-    rgba(14, 14, 14, 0.8),
-    rgba(255, 0, 0, 1.5)
-  ) !important;
-}
-
-
-.custom-search .ant-btn:active, .ant-btn:hover {
-  border-color: red !important;
-}
-
 /* ant input: */
-.custom-search .ant-input:hover,.ant-input:active {
-  border-color: red !important;
+.custom-search .ant-input:hover,
+.ant-input:active {
   background-color: transparent;
 }
 
-
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.custom-search .ant-btn-primary,
+.ant-btn-primary:hover,
+.ant-btn-primary:active {
+  /* Ant Design button rengi */
+  border-color: transparent;
+  background: linear-gradient(to left, #a1c6e9, #e98879);
 }
 
+.custom-search .ant-btn-primary:hover,
+.custom-search .ant-btn-primary:focus {
+  /* Butonun üzerine gelindiğinde hafif bir gölge efekti */
+  box-shadow: 0px 2px 4px rgba(230, 216, 216, 0.1);
+}
+
+.custom-search .ant-btn-primary:active {
+  /* Butona basıldığında hafifçe içeri al */
+  transform: translatex(1px);
+  border-color: transparent;
+}
+body {
+  background: linear-gradient(
+    to left,
+    #e6edf4,
+    #ebdfee,
+    rgb(223, 228, 238),
+    #e3eedf,
+    #eee6df
+  );
+}

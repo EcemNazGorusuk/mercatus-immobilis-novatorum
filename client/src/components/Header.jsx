@@ -23,9 +23,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gradient-to-r from-[#323244] via-gray-700 to-[#2f2f40] shadow-sm">
-
-     
+<header className="bg-gradient-to-r from-[#83b3df] via-[#D56CBD] to-[#f07461] sparkle shadow-xl">     
       <div className="flex justify-between items-center max-w-6xl mx-auto p-1">
         <h1>
           <Link to="/">
@@ -60,14 +58,14 @@ export default function Header() {
             />
           </Col>
         </form>
-        <ul className="flex gap-4 text-slate-400 cursor-pointer font-[500]">
-          <Link to={"/"} className="hidden sm:inline hover:text-red-700">
+        <ul className="flex gap-4 text-white cursor-pointer font-[500]">
+          <Link to={"/"} className="hidden sm:inline hover:text-[#2f326b]">
             Home
           </Link>
-          <Link to={"/about"} className="hidden sm:inline hover:text-red-700">
+          <Link to={"/about"} className="hidden sm:inline hover:text-[#2f326b]">
             About
           </Link>
-          <Link to={"/sign-in"} className="hover:text-red-700">
+          <Link to={"/sign-in"} className="hover:text-[#2f326b]">
             Sign in
           </Link>
         </ul>
