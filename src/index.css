@@ -14,7 +14,6 @@
   /* Ant Design button rengi */
   border-color: transparent;
   background: linear-gradient(to left, #a1c6e9, #e98879);
- 
 }
 
 .custom-search .ant-btn-primary:hover,
@@ -27,5 +26,14 @@
   /* Butona basıldığında hafifçe içeri al */
   transform: translatex(1px);
   border-color: transparent;
-  
+}
+body {
+  background: linear-gradient(
+    to left,
+    #e6edf4,
+    #ebdfee,
+    rgb(223, 228, 238),
+    #e3eedf,
+    #eee6df
+  );
 }
