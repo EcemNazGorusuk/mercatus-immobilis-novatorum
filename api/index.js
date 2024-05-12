@@ -27,7 +27,7 @@ app.use("/api/auth", authRouter); //-> http://localhost:3000/api/auth/signup
 
 //MIDDLEWARES
 
-//for error handler works
+//middleware for error handler function works
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server Error';
