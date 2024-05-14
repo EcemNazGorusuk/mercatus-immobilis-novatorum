@@ -23,7 +23,7 @@ app.listen(3000, () => {
 
 //ROUTES
 app.use("/api/user", userRouter); //-> http://localhost:3000/api/user/test
-app.use("/api/auth", authRouter); //-> http://localhost:3000/api/auth/signup
+app.use("/api/auth", authRouter); //-> http://localhost:3000/api/auth/signup && http://localhost:3000/api/auth/signin
 
 //MIDDLEWARES
 
