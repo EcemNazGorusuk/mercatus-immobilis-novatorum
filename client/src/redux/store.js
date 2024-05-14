@@ -1,12 +1,25 @@
 import {configureStore} from '@reduxjs/toolkit';
 import userSlice from './user/userSlice';
 
-export const store= configureStore({
-    //"user" name comes from userSlice's name parameter.
-    reducer:{user:userSlice},
-    middleware:(getDefaultMiddleware) =>getDefaultMiddleware({
-        serializableCheck:false,
-    })
-})
+// REDUX PERSIST  (just client) for using lots of reducers
+// npm install redux-persist
+import { persistReducer, persistStore } from 'redux-persist';
+import {combineReducers} from '@reduxjs/toolkit';
+import storage from 'redux-persist/lib/storage';
+import { version } from 'react';
 
-//use store in -> main.jsx
+const rootReducer=combineReducers({user:userSlice})    //"user" name comes from userSlice's name parameter.
+const persistConfig={key:'root',storage,version:1}
+const persistedReducer =persistReducer(persistConfig,rootReducer);
+
+//
+export const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+  });
+
+export const persistor=persistStore(store);
+//use store & PersistGate & persistor in -> main.jsx
