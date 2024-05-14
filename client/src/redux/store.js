@@ -9,4 +9,4 @@ export const store= configureStore({
     })
 })
 
-//use store in main.jsx
+//use store in -> main.jsx
