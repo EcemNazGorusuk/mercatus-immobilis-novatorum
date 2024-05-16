@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
-
 dotenv.config();
 mongoose
   .connect(process.env.MONGO)
@@ -23,7 +22,10 @@ app.listen(3000, () => {
 
 //ROUTES
 app.use("/api/user", userRouter); //-> http://localhost:3000/api/user/test
-app.use("/api/auth", authRouter); //-> http://localhost:3000/api/auth/signup && http://localhost:3000/api/auth/signin
+app.use("/api/auth", authRouter);
+ /* -> http://localhost:3000/api/auth/signup 
+    -> http://localhost:3000/api/auth/signin
+    -> http://localhost:3000/api/auth/google */
 
 //MIDDLEWARES
 
