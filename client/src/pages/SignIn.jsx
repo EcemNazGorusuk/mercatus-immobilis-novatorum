@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 //useDispatch for reducers's methods
 import {useDispatch, useSelector} from 'react-redux'; 
 import { signInStart,signInSuccess,signInFailure } from "../redux/user/userSlice"; 
+import OAuth from "../components/OAuth";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
@@ -90,6 +91,9 @@ export default function SignIn() {
         >
           {loading ? "Loading.." : "Sign In"}
         </button>
+
+        <OAuth type='button'/>
+
       </form>
 
       <div className="p-2 flex gap-2 pt-5">
