@@ -4,10 +4,15 @@ import logo from "../../public/circled-logo.PNG";
 import { Input } from "antd";
 import { Col, Row } from "antd"; // responsive layout for search button width
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { signInSuccess } from "../redux/user/userSlice";
 export default function Header() {
   const { Search } = Input; //comes from antd
   const [loading, setLoading] = useState(false); // state for loading
   const [inputText, setInputText] = useState("");
+
+  //redux for user's successfull authenticate process
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleChange = (event) => {
     //it holds input value
@@ -23,7 +28,8 @@ export default function Header() {
   };
 
   return (
-<header className="bg-gradient-to-r from-[#83b3df] via-[#D56CBD] to-[#f07461] sparkle shadow-xl">     
+    <header className="bg-gradient-to-r from-[#83b3df] via-[#D56CBD] to-[#f07461] sparkle shadow-xl">
+      {/* <h2 className="text-white items-center relative top-6">{currentUser ? "Welcome," + currentUser.username : ""}</h2> */}
       <div className="flex justify-between items-center max-w-6xl mx-auto p-1">
         <h1>
           <Link to="/">
@@ -65,8 +71,18 @@ export default function Header() {
           <Link to={"/about"} className="hidden sm:inline hover:text-[#2f326b]">
             About
           </Link>
-          <Link to={"/sign-in"} className="hover:text-[#2f326b]">
-            Sign in
+
+          {/* if current user exist, we can show user's image otherwise show default image*/}
+          <Link to="/profile" className="hover:text-[#2f326b]">
+            {currentUser ? (
+              <img
+                src={currentUser.photoURL}
+                alt="profile"
+                className="rounded-full h-7 w-7"
+              />
+            ) : (
+              <li className=' text-slate-700 hover:underline'> Sign in</li>
+            )}
           </Link>
         </ul>
       </div>

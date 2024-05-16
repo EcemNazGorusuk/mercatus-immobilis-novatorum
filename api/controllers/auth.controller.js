@@ -85,7 +85,7 @@ export const googleController = async (req, res, next) => {
           Math.random().toString(36).slice(-4),
         email: req.body.email,
         password: hashedPassword,
-        profilePhoto: req.body.photoURL,
+        photoURL: req.body.photoURL,
       });
       await newUser.save();
 

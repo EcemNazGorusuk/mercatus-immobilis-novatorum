@@ -50,7 +50,7 @@ export default function SignIn() {
       }
       //if data.success true:
       //instead of these -> setLoading(false); && setError(null);  use dispatch
-      dispatch(signInSuccess(data)) //data means currentUser
+      dispatch(signInSuccess(data)) //data means currentUser===user
 
       navigate('/');//sends user to home page
 
