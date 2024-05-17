@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
+import listingRouter from "./routes/listing.route.js";
 
 dotenv.config();
 mongoose
@@ -24,31 +25,30 @@ app.listen(3000, () => {
 });
 
 //ROUTES
-app.use("/api/user", userRouter); 
+app.use("/api/user", userRouter);
 /*  -> http://localhost:3000/api/user/update/:id 
     -> http://localhost:3000/api/user/delete/:id 
 
 */
 app.use("/api/auth", authRouter);
- /* -> http://localhost:3000/api/auth/signup 
+/* -> http://localhost:3000/api/auth/signup 
     -> http://localhost:3000/api/auth/signin
     -> http://localhost:3000/api/auth/google
     -> http://localhost:3000/api/auth/signout
  */
-
-
-
-
+app.use("/api/listing", listingRouter);
+/*  -> http://localhost:3000/api/listing/create
+ */
 
 //MIDDLEWARES
 
 //middleware for error handler function works
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
-    const message = err.message || 'Internal Server Error';
-    return res.status(statusCode).json({
-      success: false,
-      statusCode,
-      message,
-    });
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
   });
+});
