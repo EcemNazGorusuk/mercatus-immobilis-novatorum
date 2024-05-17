@@ -10,7 +10,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { updateUserStart,updateUserSuccess, updateUserFailure } from "../redux/user/userSlice";
+import { updateUserStart,updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess } from "../redux/user/userSlice";
 
 export default function Profile() {
   //for redux process
@@ -64,6 +64,7 @@ export default function Profile() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
   console.log(formData);
 
   const handleSubmit=async(e)=>{
@@ -93,8 +94,23 @@ export default function Profile() {
     }
   }
 
-
- 
+  //call api -> deleteUserController
+ const deleteHandler=async()=>{
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure)
+    }
+ }
   return (
     <div className="p-3 max-w-lg mx-auto ">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -159,8 +175,8 @@ export default function Profile() {
         </button>
       </form>
       <div className="p-2 flex gap-2 pt-5 justify-between">
-        <p className="text-red-700 font-semibold">Delete Account</p>
-        <Link className="text-[#427db5] font-semibold" to={"/sign-up"}>
+        <p onClick={deleteHandler} className="text-[#5890d3] font-semibold">Delete Account</p>
+        <Link className="text-[#dd635a] font-semibold" to={"/sign-up"}>
           Sign Out
         </Link>
       </div>

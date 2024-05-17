@@ -26,6 +26,7 @@ app.listen(3000, () => {
 //ROUTES
 app.use("/api/user", userRouter); 
 /*  -> http://localhost:3000/api/user/update/:id 
+    -> http://localhost:3000/api/user/delete/:id 
 
 */
 app.use("/api/auth", authRouter);
