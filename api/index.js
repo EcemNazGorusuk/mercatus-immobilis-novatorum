@@ -33,6 +33,7 @@ app.use("/api/auth", authRouter);
  /* -> http://localhost:3000/api/auth/signup 
     -> http://localhost:3000/api/auth/signin
     -> http://localhost:3000/api/auth/google
+    -> http://localhost:3000/api/auth/signout
  */
 
 

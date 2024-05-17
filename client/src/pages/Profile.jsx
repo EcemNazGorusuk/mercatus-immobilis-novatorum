@@ -10,13 +10,24 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { updateUserStart,updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess } from "../redux/user/userSlice";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  signOutUserFailure,
+  signInStart,
+  signOutUserStart,
+  signOutUserSuccess,
+} from "../redux/user/userSlice";
 
 export default function Profile() {
   //for redux process
-  const dispatch=useDispatch();
-  const { currentUser , loading , error} = useSelector((state) => state.user);
-  const [updateSuccess,setUpdateSuccess]=useState(false); //state for if update then give the message
+  const dispatch = useDispatch();
+  const { currentUser, loading, error } = useSelector((state) => state.user);
+  const [updateSuccess, setUpdateSuccess] = useState(false); //state for if update then give the message
 
   //for uploading img when click on img
   const fileRef = useRef(null);
@@ -24,7 +35,6 @@ export default function Profile() {
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
-
 
   useEffect(() => {
     //render first, if there is a file call this function
@@ -59,7 +69,6 @@ export default function Profile() {
     );
   };
 
- 
   //input process
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -67,15 +76,15 @@ export default function Profile() {
 
   console.log(formData);
 
-  const handleSubmit=async(e)=>{
-     //call api -> updateUserController
-     e.preventDefault();
-     try {
+  const handleSubmit = async (e) => {
+    //call api -> updateUserController
+    e.preventDefault();
+    try {
       dispatch(updateUserStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -88,18 +97,17 @@ export default function Profile() {
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
       setTimeout(() => setUpdateSuccess(false), 3000); // Hide message after 3 seconds
-
     } catch (error) {
       dispatch(updateUserFailure(error.message));
     }
-  }
+  };
 
   //call api -> deleteUserController
- const deleteHandler=async()=>{
+  const deleteHandler = async () => {
     try {
       dispatch(deleteUserStart());
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       const data = await res.json();
       if (data.success === false) {
@@ -108,13 +116,29 @@ export default function Profile() {
       }
       dispatch(deleteUserSuccess(data));
     } catch (error) {
-      dispatch(deleteUserFailure)
+      dispatch(deleteUserFailure);
     }
- }
+  };
+
+  //call api ->signoutController
+  const signoutHandler = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch("/api/auth/signout");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess(data));
+    } catch (error) {
+      dispatch(signOutUserFailure(data.message));
+    }
+  };
   return (
     <div className="p-3 max-w-lg mx-auto ">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form  onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         {/* uploading image & change img :*/}
         {/* link with input:(ref) hidden accept onChange| img:(onClick) */}
         {/*for uploading img, firebase page: storage->get started->production mode->fill 'rules' part*/}
@@ -128,11 +152,11 @@ export default function Profile() {
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={formData.photoURL ||currentUser.photoURL} //*important
+          src={formData.photoURL || currentUser.photoURL} //*important
           alt="profile"
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
         />
-        <p className='text-sm self-center'>
+        <p className="text-sm self-center">
           {fileUploadError ? (
             <span className="text-red-700">
               Error Image upload (image must be less than 2 mb)
@@ -140,7 +164,9 @@ export default function Profile() {
           ) : filePerc > 0 && filePerc < 100 ? (
             <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
           ) : filePerc === 100 ? (
-            <span className="text-green-600 font-bold">Image successfully uploaded!</span>
+            <span className="text-green-600 font-bold">
+              Image successfully uploaded!
+            </span>
           ) : (
             ""
           )}
@@ -170,19 +196,28 @@ export default function Profile() {
           className=" border p-3 rounded-lg "
         />
 
-        <button disabled={loading} className="disabled:opacity-80 uppercase shadow bg-gradient-to-r from-[#83b3df] via-[#c96cd5] to-[#f07461] hover:bg-gradient-to-r hover:from-[#8fb7dd] hover:via-[#ca85d3] hover:to-[#dd8d81] hover:bg-opacity-80 focus:shadow-outline focus:outline-none text-white font-bold py-3 px-4 rounded">
-         {loading ? "Loading.." : " Update"}
+        <button
+          disabled={loading}
+          className="disabled:opacity-80 uppercase shadow bg-gradient-to-r from-[#83b3df] via-[#c96cd5] to-[#f07461] hover:bg-gradient-to-r hover:from-[#8fb7dd] hover:via-[#ca85d3] hover:to-[#dd8d81] hover:bg-opacity-80 focus:shadow-outline focus:outline-none text-white font-bold py-3 px-4 rounded"
+        >
+          {loading ? "Loading.." : " Update"}
         </button>
       </form>
       <div className="p-2 flex gap-2 pt-5 justify-between">
-        <p onClick={deleteHandler} className="text-[#5890d3] font-semibold">Delete Account</p>
-        <Link className="text-[#dd635a] font-semibold" to={"/sign-up"}>
+        <p onClick={deleteHandler} className="text-[#5890d3] font-semibold">
+          Delete Account
+        </p>
+        <p
+          onClick={signoutHandler}
+          className="text-[#dd635a] font-semibold"
+          to={"/sign-up"}
+        >
           Sign Out
-        </Link>
+        </p>
       </div>
-      <p className='text-red-700 mt-5'>{error ? error : ''}</p>
-      <p className='animate-fadeInOut text-green-600 font-semibold mt-5 p-2'>
-        {updateSuccess ? 'User is updated successfully!' : ''}
+      <p className="text-red-700 mt-5">{error ? error : ""}</p>
+      <p className="animate-fadeInOut text-green-600 font-semibold mt-5 p-2">
+        {updateSuccess ? "User is updated successfully!" : ""}
       </p>
     </div>
   );

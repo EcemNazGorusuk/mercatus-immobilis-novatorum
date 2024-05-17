@@ -104,7 +104,7 @@ export const googleController = async (req, res, next) => {
 
 
 //logout
-export const signOut = async (req, res, next) => {
+export const signOutController = async (req, res, next) => {
   try {
     //clear cookie
     res.clearCookie('access_token');
