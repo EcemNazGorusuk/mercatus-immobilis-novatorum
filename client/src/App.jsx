@@ -7,6 +7,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
+import CreateListing from "./pages/CreateListing";
 export default function App() {
   return (
     <BrowserRouter>
@@ -18,8 +19,9 @@ export default function App() {
         {/* if user authenticated (currentUser exist), -> profile page; otherwise signin page */}
         <Route path="/sign-in" element={<SignIn />}></Route>
         <Route element={<PrivateRoute />}>
-          {/*we can reach Private route's child (Profile route) using <Outlet> */}
+          {/*we can reach PrivateRoute's child (Profile & CreateListing page) using <Outlet> */}
           <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/create-listing" element={<CreateListing />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

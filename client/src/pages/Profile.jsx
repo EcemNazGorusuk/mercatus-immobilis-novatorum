@@ -137,7 +137,12 @@ export default function Profile() {
   };
   return (
     <div className="p-3 max-w-lg mx-auto ">
-      <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
+      <h1
+        style={{ textShadow: "2px 2px 4px #AF6DCD" }}
+        className="text-[#437cb2] text-3xl font-semibold text-center my-7"
+      >
+        Profile
+      </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         {/* uploading image & change img :*/}
         {/* link with input:(ref) hidden accept onChange| img:(onClick) */}
@@ -202,6 +207,13 @@ export default function Profile() {
         >
           {loading ? "Loading.." : " Update"}
         </button>
+
+        <Link
+          to={"/create-listing"}
+          className=" text-center bg-gradient-to-r from-red-500 to-blue-500 hover:from-red-400 hover:to-blue-400 text-white uppercase font-bold py-3 px-4 rounded"
+        >
+          Create Listing
+        </Link>
       </form>
       <div className="p-2 flex gap-2 pt-5 justify-between">
         <p onClick={deleteHandler} className="text-[#5890d3] font-semibold">

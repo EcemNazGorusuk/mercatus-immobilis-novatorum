@@ -49,8 +49,8 @@ export default function SignUp() {
   return (
     <div className="p-2 max-w-lg mx-auto">
       <h1
-        className="text-3xl text-center font-semibold my-7 text-[#5987b2]"
-        style={{ textShadow: "2px 2px 4px #AF8DCD" }}
+        className="text-3xl text-center font-semibold my-7 text-[#437cb2]"
+        style={{ textShadow: "2px 2px 4px #AF6DCD" }}
       >
         Sign Up
       </h1>
