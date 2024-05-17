@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import {
@@ -10,19 +10,21 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
+import { updateUserStart,updateUserSuccess, updateUserFailure } from "../redux/user/userSlice";
 
 export default function Profile() {
-  const { currentUser } = useSelector((state) => state.user);
+  //for redux process
+  const dispatch=useDispatch();
+  const { currentUser , loading , error} = useSelector((state) => state.user);
+  const [updateSuccess,setUpdateSuccess]=useState(false); //state for if update then give the message
 
   //for uploading img when click on img
-
   const fileRef = useRef(null);
   const [file, setFile] = useState(undefined); //state for selected image file
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
 
-  console.log("form data: ", formData);
 
   useEffect(() => {
     //render first, if there is a file call this function
@@ -57,12 +59,46 @@ export default function Profile() {
     );
   };
 
-  //
+ 
+  //input process
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  console.log(formData);
 
+  const handleSubmit=async(e)=>{
+     //call api -> updateUserController
+     e.preventDefault();
+     try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+
+      dispatch(updateUserSuccess(data));
+      setUpdateSuccess(true);
+      setTimeout(() => setUpdateSuccess(false), 3000); // Hide message after 3 seconds
+
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  }
+
+
+ 
   return (
     <div className="p-3 max-w-lg mx-auto ">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form className="flex flex-col gap-4">
+      <form  onSubmit={handleSubmit} className="flex flex-col gap-4">
         {/* uploading image & change img :*/}
         {/* link with input:(ref) hidden accept onChange| img:(onClick) */}
         {/*for uploading img, firebase page: storage->get started->production mode->fill 'rules' part*/}
@@ -97,24 +133,29 @@ export default function Profile() {
         <input
           type="text"
           id="username"
+          defaultValue={currentUser.username} //it brings username data  from redux
+          onChange={handleChange}
           placeholder="username"
           className=" border p-3 rounded-lg "
         />
         <input
-          type="text"
+          type="email"
           id="email"
+          defaultValue={currentUser.email} //it brings email data from redux
+          onChange={handleChange}
           placeholder="email"
           className=" border p-3 rounded-lg "
         />
         <input
-          type="text"
+          type="password"
           id="password"
+          onChange={handleChange}
           placeholder="password"
           className=" border p-3 rounded-lg "
         />
 
-        <button className="disabled:opacity-80 uppercase shadow bg-gradient-to-r from-[#83b3df] via-[#c96cd5] to-[#f07461] hover:bg-gradient-to-r hover:from-[#8fb7dd] hover:via-[#ca85d3] hover:to-[#dd8d81] hover:bg-opacity-80 focus:shadow-outline focus:outline-none text-white font-bold py-3 px-4 rounded">
-          Update
+        <button disabled={loading} className="disabled:opacity-80 uppercase shadow bg-gradient-to-r from-[#83b3df] via-[#c96cd5] to-[#f07461] hover:bg-gradient-to-r hover:from-[#8fb7dd] hover:via-[#ca85d3] hover:to-[#dd8d81] hover:bg-opacity-80 focus:shadow-outline focus:outline-none text-white font-bold py-3 px-4 rounded">
+         {loading ? "Loading.." : " Update"}
         </button>
       </form>
       <div className="p-2 flex gap-2 pt-5 justify-between">
@@ -123,6 +164,10 @@ export default function Profile() {
           Sign Out
         </Link>
       </div>
+      <p className='text-red-700 mt-5'>{error ? error : ''}</p>
+      <p className='animate-fadeInOut text-green-600 font-semibold mt-5 p-2'>
+        {updateSuccess ? 'User is updated successfully!' : ''}
+      </p>
     </div>
   );
 }

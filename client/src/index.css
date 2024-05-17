@@ -37,3 +37,12 @@ body {
     #eee6df
   );
 }
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.animate-fadeInOut {
+  animation: fadeInOut 3s ease-in-out;
+}
