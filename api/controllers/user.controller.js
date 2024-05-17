@@ -17,7 +17,7 @@ export const updateUserController = async (req, res, next) => {
     }
 
     //update user&save
-     //set ile diğer user parametreleri de değişse değişmese de update olabilsin
+    //With set, other user parameters can be updated regardless of whether they change or not
      const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         {
