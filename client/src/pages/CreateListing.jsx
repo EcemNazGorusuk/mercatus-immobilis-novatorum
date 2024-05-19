@@ -15,22 +15,22 @@ export default function CreateListing() {
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   //holds all inputs values
   const [formData, setFormData] = useState({
-    imageUrls: [], //initial value is empty
-    name: "",
-    description: "",
-    address: "",
-    regularPrice: 50,
-    discountPrice: 50,
-    bathrooms: 1,
+    imageUrls: [],
+    name: '',
+    description: '',
+    address: '',
+    type: 'rent',
     bedrooms: 1,
-    furnished: false,
-    parking: false,
-    type: "rent",
+    bathrooms: 1,
+    regularPrice: 50,
+    discountPrice: 0,
     offer: false,
+    parking: false,
+    furnished: false,
   });
 
   const handleChange = (e) => {
@@ -72,15 +72,15 @@ export default function CreateListing() {
     e.preventDefault();
     try {
       if (formData.imageUrls.length < 1)
-        return setError('You must upload at least one image');
+        return setError("You must upload at least one image");
       if (+formData.regularPrice < +formData.discountPrice)
-        return setError('Discount price must be lower than regular price');
+        return setError("Discount price must be lower than regular price");
       setLoading(true);
       setError(false);
-      const res = await fetch('/api/listing/create', {
-        method: 'POST',
+      const res = await fetch("/api/listing/create", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...formData,
@@ -92,7 +92,7 @@ export default function CreateListing() {
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`/`);
+      navigate(`/listing/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -295,8 +295,8 @@ export default function CreateListing() {
                 id="regularPrice"
                 onChange={handleChange}
                 value={formData.regularPrice}
-                min="50"
-                max="10000000"
+                min='50'
+                max='10000000'
                 required
                 className="p-3 border border-gray-300 rounded-lg"
               />
@@ -306,24 +306,25 @@ export default function CreateListing() {
                 <span className="text-xs">($ / month)</span>
               </div>
             </div>
+            {formData.offer && (
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="discountPrice"
+                  onChange={handleChange}
+                  value={formData.discountPrice}
+                  min='0'
+                  max='10000000'
+                  required
+                  className="p-3 border border-gray-300 rounded-lg"
+                />
+                <div className="flex flex-col items-center">
+                  <p>Discounted price</p>
 
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="discountPrice"
-                onChange={handleChange}
-                value={formData.discountPrice}
-                min="50"
-                max="10000000"
-                required
-                className="p-3 border border-gray-300 rounded-lg"
-              />
-              <div className="flex flex-col items-center">
-                <p>Discounted price</p>
-
-                <span className="text-xs">($ / month)</span>
+                  <span className="text-xs">($ / month)</span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-4">
@@ -377,8 +378,8 @@ export default function CreateListing() {
               ))
           }
 
-          <button className=" text-center bg-gradient-to-r from-red-500 to-blue-500 hover:from-red-400 hover:to-blue-400 text-white uppercase font-bold py-3 px-4 rounded">
-           {loading ? "Loading.." : " Creating Listing"}
+          <button  disabled={loading || uploading} className=" text-center bg-gradient-to-r from-red-500 to-blue-500 hover:from-red-400 hover:to-blue-400 text-white uppercase font-bold py-3 px-4 rounded">
+            {loading ? "Loading.." : " Create Listing"}
           </button>
           {error ? <p className="text-red-700 text-sm">{error}</p> : ""}
         </div>
