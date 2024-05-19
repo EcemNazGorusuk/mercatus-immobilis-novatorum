@@ -53,6 +53,7 @@ const listingSchema = new mongoose.Schema(
       required: true,
     },
     userRef: {
+    //associated with user model's id 
       type: String,
       required: true,
     },
