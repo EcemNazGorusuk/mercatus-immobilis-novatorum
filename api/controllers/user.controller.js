@@ -67,7 +67,7 @@ export const getUserListingsController=async(req,res,next)=>{
   if (req.user.id === req.params.id){
      try {
       //very important : userRef holds user's id
-      const listings = await Listing.find({ userRef: req.params.id });
+      const listings = await Listing.find({ userRef: req.params.id });//&currentUser's id
       res.status(200).json(listings);
      } catch (error) {
       next(error);

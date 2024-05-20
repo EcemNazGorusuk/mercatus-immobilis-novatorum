@@ -40,6 +40,7 @@ app.use("/api/auth", authRouter);
  */
 app.use("/api/listing", listingRouter);
 /*  -> http://localhost:3000/api/listing/create
+    -> http://localhost:3000/api/listing/delete:id
  */
 
 //MIDDLEWARES
