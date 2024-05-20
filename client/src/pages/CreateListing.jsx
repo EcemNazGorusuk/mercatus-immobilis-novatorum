@@ -150,6 +150,7 @@ export default function CreateListing() {
         },
         body: JSON.stringify({
           ...formData,
+          //  userRef: currentUser._id,
           userRef: currentUser._id,
         }),
       });
@@ -158,6 +159,7 @@ export default function CreateListing() {
       if (data.success === false) {
         setError(data.message);
       }
+      console.log("data :", data);
       navigate(`/listing/${data._id}`);
     } catch (error) {
       setError(error.message);

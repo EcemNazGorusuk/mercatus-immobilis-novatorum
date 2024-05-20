@@ -24,6 +24,10 @@ import {
 } from "../redux/user/userSlice";
 
 export default function Profile() {
+  const [showListingsError, setShowListingsError] = useState(false);
+  const [userListings, setUserListings] = useState([]); //state for getting listings in here
+  const [listingsVisible, setListingsVisible] = useState(false); // State to toggle listings visibility
+
   //for redux process
   const dispatch = useDispatch();
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -136,20 +140,23 @@ export default function Profile() {
     }
   };
 
-  //call api ->signoutController
+  //call api ->getUserListingsController
   const handleShowListings = async () => {
-    try {
-      // setShowListingsError(false);
-      // const res = await fetch(`/api/user/listings/${currentUser._id}`);
-      // const data = await res.json();
-      // if (data.success === false) {
-      //   setShowListingsError(true);
-      //   return;
-      // }
-
-      // setUserListings(data);
-    } catch (error) {
-      // setShowListingsError(true);
+    setListingsVisible(!listingsVisible); // Toggle visibility state
+    if (!listingsVisible) {
+      // Fetch listings only if they are not already visible
+      try {
+        setShowListingsError(false);
+        const res = await fetch(`/api/user/listings/${currentUser._id}`);
+        const data = await res.json();
+        if (data.success === false) {
+          setShowListingsError(true);
+          return;
+        }
+        setUserListings(data);
+      } catch (error) {
+        setShowListingsError(true);
+      }
     }
   };
   return (
@@ -231,23 +238,78 @@ export default function Profile() {
         >
           Create Listing
         </Link>
-
-        <button onClick={handleShowListings} className="text-center bg-gradient-to-r from-blue-500 via-[#8a6cd5] to-[#f07461] hover:from-blue-400 hover:to-red-400 text-white uppercase font-bold py-3 px-4 rounded">
-          Show Listings
-        </button>
       </form>
+
       <div className="p-2 flex gap-2 pt-5 justify-between">
-        <p onClick={deleteHandler} className="text-[#5890d3] font-semibold">
+        <p
+          onClick={deleteHandler}
+          className="text-[#5890d3] cursor-pointer font-semibold"
+        >
           Delete Account
         </p>
+        <button
+          onClick={handleShowListings}
+          className="w-48 text-center bg-gradient-to-r from-blue-500 via-[#8a6cd5] to-[#f07461] hover:from-blue-400 hover:to-red-400 text-white uppercase font-bold 9 rounded"
+        >
+          {listingsVisible ? "Hide Listings" : "Show Listings"}
+        </button>
+        <p className="text-red-700 mt-5">
+          {showListingsError ? "Error showing listings" : ""}
+        </p>
+
         <p
           onClick={signoutHandler}
-          className="text-[#dd635a] font-semibold"
+          className="text-[#dd635a] font-semibold cursor-pointer"
           to={"/sign-up"}
         >
           Sign Out
         </p>
       </div>
+      {listingsVisible && userListings && userListings.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1
+            style={{ textShadow: "2px 2px 4px #AF6DCD" }}
+            className="text-3xl text-[#437cb2] font-semibold text-center my-7"
+          >
+            Your Listings
+          </h1>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className="border border-gray-300 rounded-lg p-3 flex justify-between items-center gap-4"
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  alt="listing cover"
+                  className="h-16 w-16 object-contain"
+                />
+              </Link>
+              <Link
+                className="text-slate-600 font-semibold  hover:text-slate-800 truncate flex-1"
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+                <p>{listing.address}</p>
+              </Link>
+
+              <div className="flex flex-col item-center">
+                <button
+                  // onClick={() => handleListingDelete(listing._id)}
+                  className="text-[#d36658] font-bold cursor-pointer uppercase"
+                >
+                  Delete
+                </button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className="text-green-600 font-bold cursor-pointer uppercase">
+                    Edit
+                  </button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
       <p className="animate-fadeInOut text-green-600 font-semibold mt-5 p-2">
         {updateSuccess ? "User is updated successfully!" : ""}
