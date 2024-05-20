@@ -5,6 +5,7 @@ import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import listingRouter from "./routes/listing.route.js";
+import cors from 'cors';
 
 dotenv.config();
 mongoose
@@ -19,6 +20,7 @@ mongoose
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
 app.listen(3000, () => {
   console.log(`server is running on port 3000!`);
@@ -28,7 +30,7 @@ app.listen(3000, () => {
 app.use("/api/user", userRouter);
 /*  -> http://localhost:3000/api/user/update/:id 
     -> http://localhost:3000/api/user/delete/:id 
-
+    -> http://localhost:3000/api/user/listings/:id 
 */
 app.use("/api/auth", authRouter);
 /* -> http://localhost:3000/api/auth/signup 

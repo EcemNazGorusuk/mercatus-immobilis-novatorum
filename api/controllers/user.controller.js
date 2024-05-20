@@ -1,3 +1,4 @@
+import Listing from "../models/listing.model.js";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
@@ -57,3 +58,23 @@ export const deleteUserController = async (req, res, next) => {
     next(error);
   }
 };
+
+
+//GET USER'S LISTINGS
+export const getUserListingsController=async(req,res,next)=>{
+  //req.params.id ----> router.get('/listings/:id',verifyToken,getUserListingsController) 
+  //req.user.id   ----> jwt verify in verifyUser.js
+  if (req.user.id === req.params.id){
+     try {
+      //very important : userRef holds user's id
+      const listings = await Listing.find({ userRef: req.params.id });
+      res.status(200).json(listings);
+     } catch (error) {
+      next(error);
+     }
+    
+  }else{
+    return next(errorHandler(401, "You can only view your own listings!"));
+  }
+  
+}

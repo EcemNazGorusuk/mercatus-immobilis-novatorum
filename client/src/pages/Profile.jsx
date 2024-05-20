@@ -135,6 +135,23 @@ export default function Profile() {
       dispatch(signOutUserFailure(data.message));
     }
   };
+
+  //call api ->signoutController
+  const handleShowListings = async () => {
+    try {
+      // setShowListingsError(false);
+      // const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      // const data = await res.json();
+      // if (data.success === false) {
+      //   setShowListingsError(true);
+      //   return;
+      // }
+
+      // setUserListings(data);
+    } catch (error) {
+      // setShowListingsError(true);
+    }
+  };
   return (
     <div className="p-3 max-w-lg mx-auto ">
       <h1
@@ -214,6 +231,10 @@ export default function Profile() {
         >
           Create Listing
         </Link>
+
+        <button onClick={handleShowListings} className="text-center bg-gradient-to-r from-blue-500 via-[#8a6cd5] to-[#f07461] hover:from-blue-400 hover:to-red-400 text-white uppercase font-bold py-3 px-4 rounded">
+          Show Listings
+        </button>
       </form>
       <div className="p-2 flex gap-2 pt-5 justify-between">
         <p onClick={deleteHandler} className="text-[#5890d3] font-semibold">
