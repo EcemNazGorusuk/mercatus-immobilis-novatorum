@@ -171,7 +171,7 @@ export default function Profile() {
         console.log(data.message);
         return;
       }
-      //filter delete 
+      //filter delete
       setUserListings((prev) =>
         prev.filter((listing) => listing._id !== listingId)
       );
@@ -271,7 +271,11 @@ export default function Profile() {
           onClick={handleShowListings}
           className="w-48 text-center bg-gradient-to-r from-blue-500 via-[#8a6cd5] to-[#f07461] hover:from-blue-400 hover:to-red-400 text-white uppercase font-bold 9 rounded"
         >
-          {listingsVisible ? "Hide Listings" : "Show Listings"}
+          {userListings.length > 0
+            ? listingsVisible
+              ? "Hide Listings"
+              : "Show Listings"
+            :  "Listings"}
         </button>
         <p className="text-red-700 mt-5">
           {showListingsError ? "Error showing listings" : ""}
@@ -330,6 +334,7 @@ export default function Profile() {
           ))}
         </div>
       )}
+
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
       <p className="animate-fadeInOut text-green-600 font-semibold mt-5 p-2">
         {updateSuccess ? "User is updated successfully!" : ""}
