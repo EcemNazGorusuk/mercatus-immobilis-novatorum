@@ -47,7 +47,7 @@ export const createListing = async (req, res, next) => {
   }
 };
 
-//delete
+//delete listing ->id
 export const deleteListing = async (req, res, next) => {
   const listing = await Listing.findByIdAndDelete(req.params.id); //determine listing exists or not
   if (!listing) {
@@ -65,7 +65,7 @@ export const deleteListing = async (req, res, next) => {
   }
 };
 
-//update
+//update listing ->id
 export const updateListing = async (req, res, next) => {
   const listing = await Listing.findById(req.params.id);
   if (!listing) {
@@ -85,6 +85,19 @@ export const updateListing = async (req, res, next) => {
       { new: true }
     );
     res.status(200).json(updatedListing);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//get listing->id
+export const getListing = async (req, res, next) => {
+  try {
+    const obtainListing = await Listing.findById(req.params.id);
+    if (!obtainListing) {
+      return next(errorHandler(404, "Listing not found!"));
+    }
+    res.status(200).json(obtainListing);
   } catch (error) {
     next(error);
   }

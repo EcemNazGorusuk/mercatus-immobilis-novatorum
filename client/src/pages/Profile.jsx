@@ -275,7 +275,7 @@ export default function Profile() {
             ? listingsVisible
               ? "Hide Listings"
               : "Show Listings"
-            :  "Listings"}
+            : "Listings"}
         </button>
         <p className="text-red-700 mt-5">
           {showListingsError ? "Error showing listings" : ""}
@@ -317,15 +317,15 @@ export default function Profile() {
                 <p>{listing.address}</p>
               </Link>
 
-              <div className="flex flex-col item-center">
+              <div className="flex flex-col items-center gap-2">
                 <button
                   onClick={() => handleListingDelete(listing._id)}
-                  className="text-[#d36658] font-bold cursor-pointer uppercase"
+                  className="text-white bg-[#F07377] hover:bg-[#ed96a3] font-bold py-2 px-4 rounded cursor-pointer uppercase w-full"
                 >
                   Delete
                 </button>
-                <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-600 font-bold cursor-pointer uppercase">
+                <Link to={`/update-listing/${listing._id}`} className="w-full">
+                  <button className="text-white bg-[#5978c6] hover:bg-[#7895dd] font-bold py-2 px-4 rounded cursor-pointer uppercase w-full">
                     Edit
                   </button>
                 </Link>
