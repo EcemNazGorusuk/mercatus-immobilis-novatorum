@@ -20,7 +20,7 @@ export default function App() {
         <Route path="/about" element={<About />}></Route>
         {/* if user authenticated (currentUser exist), -> profile page; otherwise signin page */}
         <Route path="/sign-in" element={<SignIn />}></Route>
-        <Route path="/listing/:listingId" element={<Listing />} />
+        <Route path='/listing/:listingId' element={<Listing />} />
 
         <Route element={<PrivateRoute />}>
           {/*we can reach PrivateRoute's child (Profile & CreateListing & UpdateListing page) using <Outlet> */}

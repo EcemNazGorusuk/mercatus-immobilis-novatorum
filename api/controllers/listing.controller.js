@@ -3,48 +3,12 @@ import { errorHandler } from "../utils/error.js";
 
 //create
 export const createListing = async (req, res, next) => {
-  try {
-    const {
-      name,
-      description,
-      address,
-      regularPrice,
-      discountPrice,
-      bathrooms,
-      bedrooms,
-      furnished,
-      parking,
-      type,
-      offer,
-      imageUrls,
-      userRef,
-    } = req.body;
-
-    const newListing = new Listing({
-      name,
-      description,
-      address,
-      regularPrice,
-      discountPrice,
-      bathrooms,
-      bedrooms,
-      furnished,
-      parking,
-      type,
-      offer,
-      imageUrls,
-      userRef,
-    });
-
-    const savedListing = await newListing.save();
-
-    // get existed lists
-    const existingListings = await Listing.find();
-
-    res.status(201).json({ newListing: savedListing, existingListings });
-  } catch (error) {
-    next(error);
-  }
+    try {
+        const listing = await Listing.create(req.body);
+        return res.status(201).json(listing);
+      } catch (error) {
+        next(error);
+      }
 };
 
 //delete listing ->id
@@ -92,13 +56,14 @@ export const updateListing = async (req, res, next) => {
 
 //get listing->id
 export const getListing = async (req, res, next) => {
-  try {
-    const obtainListing = await Listing.findById(req.params.id);
-    if (!obtainListing) {
-      return next(errorHandler(404, "Listing not found!"));
+    try {
+      const listing = await Listing.findById(req.params.id);
+      if (!listing) {
+        return next(errorHandler(404, 'Listing not found!'));
+      }
+      res.status(200).json(listing);
+    } catch (error) {
+      next(error);
     }
-    res.status(200).json(obtainListing);
-  } catch (error) {
-    next(error);
-  }
-};
+  };
+  

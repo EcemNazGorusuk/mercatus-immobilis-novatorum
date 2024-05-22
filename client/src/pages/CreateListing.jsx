@@ -7,11 +7,12 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const params = useParams();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     //holds all inputs values
@@ -137,6 +138,7 @@ export default function CreateListing() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      debugger;
       if (formData.imageUrls.length < 1)
         return setError("You must upload at least one image");
       if (+formData.regularPrice < +formData.discountPrice)
@@ -161,10 +163,8 @@ export default function CreateListing() {
       if (data.success === false) {
         setError(data.message);
       }
-      console.log("data :", data);
-   
       navigate(`/listing/${data._id}`);
-     
+      console.log("data :", data);
     } catch (error) {
       setError(error.message);
       setLoading(false);
