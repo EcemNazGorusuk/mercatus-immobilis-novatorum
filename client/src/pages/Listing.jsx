@@ -26,6 +26,8 @@ export default function Listing() {
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
+  console.log("current user:",currentUser._id);
+  console.log("user ref:",listing?.userRef);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -74,7 +76,7 @@ export default function Listing() {
             <FaShare
               className="text-purple-500"
               onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
+                navigator.clipboard.writeText(window.location.href); //copies url address
                 setCopied(true);
                 setTimeout(() => {
                   setCopied(false);
@@ -100,17 +102,19 @@ export default function Listing() {
               {listing.address}
             </p>
             <div className="flex gap-4">
-              <p    className=" text-center bg-gradient-to-r from-red-500 to-blue-500  text-white uppercase font-bold p-1 px-4 rounded">
+              <p className=" text-center bg-gradient-to-r from-red-500 to-blue-500  text-white uppercase font-bold p-1 px-4 rounded">
                 {listing.type === "rent" ? "For Rent" : "For Sale"}
               </p>
               {listing.offer && (
-                <p className="bg-[#DF4953]   w-full max-w-[200px] text-white text-center p-1 rounded-md">
+                <p className="bg-[#DF4953] w-full max-w-[200px] text-white text-center p-1 rounded-md">
                   ${+listing.regularPrice - +listing.discountPrice} OFF
                 </p>
               )}
             </div>
             <p className="text-slate-800">
-              <span className="font-semibold text-[#DF4953] ">Description - </span>
+              <span className="font-semibold text-[#DF4953] ">
+                Description -{" "}
+              </span>
               {listing.description}
             </p>
             <ul className="text-[#487EEA] font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
@@ -135,10 +139,12 @@ export default function Listing() {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
+
             {currentUser && listing.userRef !== currentUser._id && !contact && (
+              //other users can see this if contact false and user id !== current user's id
               <button
                 onClick={() => setContact(true)}
-                className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3"
+                className="bg-[#6F70C2] text-white rounded-lg uppercase hover:opacity-95 p-3"
               >
                 Contact landlord
               </button>

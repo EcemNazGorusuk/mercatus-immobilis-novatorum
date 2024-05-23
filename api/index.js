@@ -31,6 +31,7 @@ app.use("/api/user", userRouter);
 /*  -> http://localhost:3000/api/user/update/:id 
     -> http://localhost:3000/api/user/delete/:id 
     -> http://localhost:3000/api/user/listings/:id 
+    -> http://localhost:3000/api/user/:id 
 */
 app.use("/api/auth", authRouter);
 /* -> http://localhost:3000/api/auth/signup 
