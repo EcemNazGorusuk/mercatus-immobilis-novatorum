@@ -44,6 +44,7 @@ app.use("/api/listing", listingRouter);
     -> http://localhost:3000/api/listing/delete/:id
     -> http://localhost:3000/api/listing/update/:id
     -> http://localhost:3000/api/listing/get/:id
+    -> http://localhost:3000/api/listing/get
  */
 
 //MIDDLEWARES
