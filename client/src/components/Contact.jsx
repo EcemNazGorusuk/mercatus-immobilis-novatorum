@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Contact({ listing }) {
   //for contact, we need to user info
-  const [landlord, setLandlord] = useState(null);
+  const [userLandlord, setUserLandlord] = useState(null);
   const [message, setMessage] = useState("");
 
   const onChange = (e) => {
@@ -18,7 +18,7 @@ export default function Contact({ listing }) {
       try {
         const res = await fetch(`/api/user/${listing.userRef}`);
         const data = await res.json();
-        setLandlord(data);
+        setUserLandlord(data);
       } catch (error) {
         console.log(error);
       }
@@ -28,13 +28,14 @@ export default function Contact({ listing }) {
 
   return (
     <>
-      {landlord && (
+      {userLandlord && (
         <div className="flex flex-col gap-2 py-2">
           <p>
-            Contact <span className="font-semibold">{landlord.username}</span>{" "}
+            Contact <span className="font-semibold">{userLandlord.username}</span>{" "}
             for{" "}
             <span className="font-semibold">{listing.name.toLowerCase()}</span>
           </p>
+          {/* send message to user's email address */}
           <textarea
             name="message"
             id="message"
@@ -46,7 +47,7 @@ export default function Contact({ listing }) {
           ></textarea>
 
           <Link
-            // to={`mailto:${landlord.email}?subject=Regarding ${listing.name}&body=${message}`}
+            to={`mailto:${userLandlord.email}?subject=Regarding ${listing.name}&body=${message}`}
             className=" text-center bg-gradient-to-r from-red-500 to-blue-500 hover:opacity-60 text-white uppercase font-bold p-2 px-4 rounded"
           >
             Send Message
