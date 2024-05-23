@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
-import listingRouter from "./routes/listing.route.js"
-import cors from 'cors';
-
+import listingRouter from "./routes/listing.route.js";
+import cors from "cors";
+import path from "path"; //for deploying
 dotenv.config();
 mongoose
   .connect(process.env.MONGO)
@@ -17,6 +17,7 @@ mongoose
     console.log(err);
   });
 
+const __dirname = path.resolve();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -46,6 +47,12 @@ app.use("/api/listing", listingRouter);
     -> http://localhost:3000/api/listing/get/:id
     -> http://localhost:3000/api/listing/get
  */
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 //MIDDLEWARES
 
