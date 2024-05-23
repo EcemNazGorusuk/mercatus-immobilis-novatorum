@@ -33,7 +33,7 @@ export default function App() {
           ></Route>
         </Route>
         <Route path="/search" element={<Search />} />
-      </Routes>
+      </Routes> 
     </BrowserRouter>
   );
 }
