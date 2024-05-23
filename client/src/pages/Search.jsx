@@ -51,19 +51,22 @@ export default function Search() {
 
     //call api->getListings
     const fetchListings = async () => {
-      setLoading(true);
-      const searchQuery = urlParams.toString();
-      const res = await fetch(`/api/listing/get?${searchQuery}`);
-      const data = await res.json();
-      if (data.length > 8) {
-        setShowMore(true);
-      }
-      setListings(data);
-      setLoading(false);
-    };
-
-    fetchListings();
-  }, [location.search]);
+        setLoading(true);
+        setShowMore(false);
+        const searchQuery = urlParams.toString();
+        const res = await fetch(`/api/listing/get?${searchQuery}`);
+        const data = await res.json();
+        if (data.length > 8) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
+        }
+        setListings(data);
+        setLoading(false);
+      };
+  
+      fetchListings();
+    }, [location.search]);
 
   const handleChange = (e) => {
     if (e.target.id === "searchTerm") {
@@ -100,13 +103,11 @@ export default function Search() {
     }
   };
 
-
-
   const onShowMoreClick = async () => {
     const numberOfListings = listings.length;
     const startIndex = numberOfListings;
     const urlParams = new URLSearchParams(location.search);
-    urlParams.set('startIndex', startIndex);
+    urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
     const res = await fetch(`/api/listing/get?${searchQuery}`);
     const data = await res.json();
@@ -116,8 +117,6 @@ export default function Search() {
     setListings([...listings, ...data]);
   };
 
-
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     //change url like this:
