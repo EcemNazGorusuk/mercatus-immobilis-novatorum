@@ -118,11 +118,14 @@ export const getListings = async (req, res, next) => {
       .limit(limit)
       .skip(startIndex);
 
+    //http://localhost:3000/api/listing/get?searchTerm=deneme (searchTerm finds 'name')
+    //http://localhost:3000/api/listing/get?searchTerm=deneme&limit=2
+    //http://localhost:3000/api/listing/get?parking=true
     // regex is used to search in the name field, and the i option removes case sensitivity.
     // The previously set filters for offer, furnished, parking, and type are used here.
     // Results are sorted according to the specified sort field and order direction.
     // Results are limited by the limit and skipped by the startIndex (pagination).
-    
+
     return res.status(200).json(listings);
   } catch (error) {
     next(error);
